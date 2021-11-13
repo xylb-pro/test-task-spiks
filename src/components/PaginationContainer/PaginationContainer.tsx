@@ -26,8 +26,7 @@ export const PaginationContainer: React.FC<IPaginationContainer> = ({
   );
 };
 
-interface IContainer {}
-const Container = styled.div<IContainer>`
+const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
