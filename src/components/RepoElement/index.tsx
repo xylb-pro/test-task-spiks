@@ -1,4 +1,3 @@
-import { memo } from 'react';
 import styled from 'styled-components';
 import { IRepoModel } from '../../models/repo';
 import { COLOR } from '../../styles/colors';
@@ -48,8 +47,6 @@ export const RepoElement: React.FC<IRepoElement> = ({
     </Container>
   );
 };
-
-export const MemoRepoElement = memo(RepoElement);
 
 const Container = styled.div`
   display: flex;

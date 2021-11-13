@@ -10,35 +10,46 @@ export const FindedRepos = (repoName: string) => {
     ISearch<IRepoModel>,
     IRequestRepoVariables
   >(SEARCH_REPOS, {
-    variables: { repoName },
+    variables: { repoName, cursor: null },
   });
 
   if (loading && repoName) {
     return <AppLoader />;
   }
   if (error) {
-    console.log('Error with FindRepos: ', error);
+    console.error('Error with FindRepos: ', error);
     return;
   }
   const pageInfo = data?.search.pageInfo;
   const findedRepos = data?.search.nodes;
 
-  if (findedRepos?.length && pageInfo) {
+  const fetchMoreRepos = () => {
+    if (pageInfo?.hasNextPage) {
+      fetchMore({
+        variables: {
+          repoName,
+          cursor: pageInfo.endCursor,
+        },
+        updateQuery: (prevRes, { fetchMoreResult }) => {
+          if (fetchMoreResult) {
+            const newNodes = fetchMoreResult?.search.nodes || [];
+            fetchMoreResult.search.nodes = [
+              ...prevRes.search.nodes,
+              ...newNodes,
+            ];
+            return fetchMoreResult;
+          }
+          return prevRes;
+        },
+      });
+    }
+  };
+
+  if (pageInfo && findedRepos) {
     return (
       <PaginationContainer
         findedRepos={findedRepos}
-        pageInfo={pageInfo}
-        fetchMore={() => {
-          if (pageInfo.hasNextPage) {
-            //fetch происходит, новые данные приходят, но почему то data не обновляется. Застрял на этом, больше времени к сожалению нет(
-            fetchMore({
-              variables: {
-                repoName,
-                cursor: pageInfo.endCursor,
-              },
-            });
-          }
-        }}
+        fetchMore={fetchMoreRepos}
       />
     );
   }

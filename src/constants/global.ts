@@ -1,3 +1,3 @@
-export const GITHUB_API_URL = 'https://api.github.com/graphql';
+export const GITHUB_API_URL = process.env.REACT_APP_GITHUB_API;
 
-export const GITHUB_TOKEN = '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';
+export const GITHUB_TOKEN = process.env.REACT_APP_GITHUB_TOKEN;

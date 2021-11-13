@@ -21,7 +21,7 @@ export interface IRepoModel {
 
 export interface IRequestRepoVariables {
   repoName: string;
-  cursor?: string;
+  cursor: string | null;
 }
 
 export type TRepos = Array<IRepoModel>;
