@@ -30,6 +30,7 @@ export const FindedRepos = (repoName: string) => {
           repoName,
           cursor: pageInfo.endCursor,
         },
+        //Получилось сделать пагинацию только так, не хватило времени до конца разобраться(
         updateQuery: (prevRes, { fetchMoreResult }) => {
           if (fetchMoreResult) {
             const newNodes = fetchMoreResult?.search.nodes || [];
